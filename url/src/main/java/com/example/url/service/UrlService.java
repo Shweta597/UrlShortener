@@ -1,9 +1,9 @@
-package com.example.url.service; // Adjust this to your actual package name
+package com.example.url.service;
 
+import com.example.url.model.ShortUrl;
+import com.example.url.repository.UrlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.url.repository.*;
-import com.example.url.model.*;
 
 import java.util.UUID;
 
@@ -14,18 +14,19 @@ public class UrlService {
     private UrlRepository repository;
 
     public ShortUrl shortenUrl(String originalUrl) {
-        String code = generateShortCode();
         ShortUrl shortUrl = new ShortUrl();
         shortUrl.setOriginalUrl(originalUrl);
-        shortUrl.setShortCode(code);
+        shortUrl.setShortCode(generateShortCode());
+       
         return repository.save(shortUrl);
     }
 
     public String getOriginalUrl(String shortCode) {
         ShortUrl shortUrl = repository.findByShortCode(shortCode)
-            .orElseThrow(() -> new RuntimeException("Not found"));
+            .orElseThrow(() -> new RuntimeException("Short URL not found"));
         shortUrl.setVisitCount(shortUrl.getVisitCount() + 1);
         repository.save(shortUrl);
+
         return shortUrl.getOriginalUrl();
     }
 

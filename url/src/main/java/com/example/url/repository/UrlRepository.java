@@ -1,7 +1,7 @@
 package com.example.url.repository;
 import java.util.Optional;
 
-import com.example.url.model.ShortUrl;  // Import your Url entity
+import com.example.url.model.ShortUrl;  
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
